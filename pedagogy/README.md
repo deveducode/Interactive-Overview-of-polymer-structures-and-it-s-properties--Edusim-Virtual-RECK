@@ -5,18 +5,18 @@
 
 
 <br>
-<b> Experiment : Name of the experiment	 <a name="top"></a> <br>
+<b> Experiment : Interactive Overview of Polymer Structures and Its Properties <a name="top"></a> <br>
 </p>
 
-<b>Discipline | Fill your discipline name here <b> 
+<b>Discipline | Chemical Science <b> 
 :--|:--|
-<b> Lab | Fill your lab name here<b> 
-<b> Experiment|  Fill your experiment name here   <b> 
+<b> Lab | Chemical Engineering Lab<b> 
+<b> Experiment|  Interactive Overview of Polymer Structures and Its Properties   <b> 
 
 
-<h4> [1. Focus Area](#LO)
-<h4> [2. Learning Objectives ](#LO)
-<h4> [3. Instructional Strategy](#IS)
+<h4> [1. Focus Area](#LO)"Discover how the structure of polymers affects their strength, flexibility, and how they react with other substances."
+<h4> [2. Learning Objectives ](#LO)"By the end of this module, learners will be able to identify different polymer structures and explain how these structures influence the physical, chemical, and mechanical properties of materials."
+<h4> [3. Instructional Strategy](#IS)<b>1. Start with What You Know</b> <br> Begin with a quick quiz or question to see what learners already know about polymers.<br> <b>2. Learn by Doing</b><br> Let students play with interactive tools like animations or 3D models to see different polymer shapes and how they work.<br><b>3. Explain the Ideas</b><br> Use simple videos or pictures to show how a polymer’s shape affects its strength, stretchiness, or how it reacts with things.<br> <b>4. Try It Out</b><br> Give real-life examples and activities where students guess which polymer works best in certain situations (like clothing or bottles).
 <h4> [4. Task & Assessment Questions](#AQ)
 <h4> [5. Simulator Interactions](#SI)
 <hr>
