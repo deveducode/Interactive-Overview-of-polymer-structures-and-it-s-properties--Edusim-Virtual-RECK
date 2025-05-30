@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Lab: Polymer Structure and Properties</title>
+    <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js and OrbitControls -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <style>
+        /* Custom CSS from both codebases merged */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
         :root {
             --primary: #3b82f6;
             --primary-dark: #2563eb;
@@ -18,142 +21,68 @@
             --dark: #1e293b;
             --light: #f8fafc;
         }
-        
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        .nav-link {
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        
+        .nav-link { transition: all 0.3s ease; position: relative; }
+        .nav-link:hover { background-color: rgba(59, 130, 246, 0.1); }
         .nav-link.active {
-            background-color: rgba(59, 130, 246, 0.2);
-            color: var(--primary-dark);
+            background-color: rgba(59, 130, 246, 0.2); color: var(--primary-dark);
         }
-        
         .nav-link.active::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background-color: var(--primary);
-            border-radius: 4px 0 0 4px;
+            content: ''; position: absolute; right: 0; top: 0; height: 100%; width: 4px;
+            background-color: var(--primary); border-radius: 4px 0 0 4px;
         }
-        
         .simulation-container {
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-radius: 12px;
-            overflow: hidden;
-            background: white;
+            border-radius: 12px; overflow: hidden; background: white;
         }
-        
         .tooltip {
-            position: absolute;
-            background: rgba(30, 41, 59, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            max-width: 250px;
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            position: absolute; background: rgba(30, 41, 59, 0.9); color: white;
+            padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; max-width: 250px;
+            z-index: 1000; pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
             transform: translateY(10px);
         }
-        
-        .property-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--primary);
-        }
-        
+        .property-card { transition: all 0.3s ease; border-left: 4px solid var(--primary); }
         .property-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-        
-        .quiz-option {
-            transition: all 0.2s ease;
-        }
-        
-        .quiz-option:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-        }
-        
-        .quiz-option.correct {
-            background-color: rgba(16, 185, 129, 0.2);
-            border-color: var(--secondary);
-        }
-        
-        .quiz-option.incorrect {
-            background-color: rgba(239, 68, 68, 0.2);
-            border-color: #ef4444;
-        }
-        
-        .progress-bar {
-            height: 6px;
-            background-color: #e2e8f0;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background-color: var(--primary);
-            width: 30%;
-            transition: width 0.5s ease;
-        }
-        
+        .quiz-option { transition: all 0.2s ease; }
+        .quiz-option:hover { background-color: rgba(59, 130, 246, 0.1); }
+        .quiz-option.correct { background-color: rgba(16, 185, 129, 0.2); border-color: var(--secondary);}
+        .quiz-option.incorrect { background-color: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
+        .progress-bar { height: 6px; background-color: #e2e8f0; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background-color: var(--primary); width: 30%; transition: width 0.5s ease; }
         .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 1000; transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        
         .polymer-loader {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        
         .monomer {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: white;
+            width: 20px; height: 20px; border-radius: 50%; background-color: white;
             animation: polymerAnim 1.5s infinite ease-in-out;
         }
-        
         .monomer:nth-child(1) { animation-delay: 0s; }
         .monomer:nth-child(2) { animation-delay: 0.2s; }
         .monomer:nth-child(3) { animation-delay: 0.4s; }
         .monomer:nth-child(4) { animation-delay: 0.6s; }
         .monomer:nth-child(5) { animation-delay: 0.8s; }
-        
         @keyframes polymerAnim {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
+        }
+        /* Responsive sidebar collapse */
+        @media (max-width: 768px) {
+            .w-64 { width: 0 !important; }
+            .md\\:block { display: none !important; }
         }
     </style>
 </head>
@@ -173,7 +102,7 @@
 
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg z-10 flex-shrink-0 hidden md:block">
+        <div class="w-64 bg-white shadow-lg z-10 flex-shrink-0 hidden md:block" id="sidebar">
             <div class="p-5 border-b">
                 <h1 class="text-xl font-bold text-gray-800 flex items-center">
                     <i class="fas fa-flask mr-2 text-blue-500"></i>
@@ -181,25 +110,23 @@
                 </h1>
                 <p class="text-sm text-gray-600 mt-1">Virtual Simulation</p>
             </div>
-            
             <nav class="mt-6">
-                <a href="#" class="nav-link active block py-3 px-6 text-gray-700 hover:text-blue-600">
+                <a href="#" class="nav-link active block py-3 px-6 text-gray-700 hover:text-blue-600" data-section="introduction">
                     <i class="fas fa-home mr-3"></i> Introduction
                 </a>
-                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600">
+                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600" data-section="types">
                     <i class="fas fa-project-diagram mr-3"></i> Polymer Types
                 </a>
-                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600">
+                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600" data-section="structure">
                     <i class="fas fa-atom mr-3"></i> Structure Viewer
                 </a>
-                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600">
+                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600" data-section="properties">
                     <i class="fas fa-weight-hanging mr-3"></i> Physical Properties
                 </a>
-                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600">
+                <a href="#" class="nav-link block py-3 px-6 text-gray-700 hover:text-blue-600" data-section="quiz">
                     <i class="fas fa-question-circle mr-3"></i> Quiz/Test Yourself
                 </a>
             </nav>
-            
             <div class="absolute bottom-0 w-full p-4 border-t">
                 <div class="flex justify-between items-center">
                     <div>
@@ -214,7 +141,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Main content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Mobile header -->
@@ -228,18 +155,16 @@
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
-                
                 <div id="mobile-nav" class="hidden border-t">
                     <nav class="flex overflow-x-auto py-2">
-                        <a href="#" class="px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600">Intro</a>
-                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600">Types</a>
-                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600">Structure</a>
-                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600">Properties</a>
-                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600">Quiz</a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600" data-section="introduction">Intro</a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600" data-section="types">Types</a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600" data-section="structure">Structure</a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600" data-section="properties">Properties</a>
+                        <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600" data-section="quiz">Quiz</a>
                     </nav>
                 </div>
             </header>
-            
             <main class="flex-1 overflow-y-auto p-4 md:p-6">
                 <div class="max-w-7xl mx-auto">
                     <!-- Header -->
@@ -247,15 +172,11 @@
                         <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Polymer Structure and Properties</h1>
                         <p class="text-gray-600 mt-2">Explore the molecular structure of polymers and their physical properties through interactive simulation</p>
                     </div>
-                    
-                    <!-- Simulation Section -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Simulation Section (Structure Viewer) -->
+                    <div id="structure-section" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                         <div class="lg:col-span-2">
                             <div class="simulation-container">
-                                <div id="polymerView" class="w-full h-96 md:h-[500px] bg-gray-50 relative">
-                                    <!-- Simulation will be rendered here -->
-                                </div>
-                                
+                                <div id="polymerView" class="w-full h-96 md:h-[500px] bg-gray-50 relative"></div>
                                 <!-- Simulation Controls -->
                                 <div class="bg-gray-50 p-4 border-t">
                                     <div class="flex flex-wrap items-center justify-between gap-3">
@@ -270,52 +191,59 @@
                                                 <i class="fas fa-redo mr-2"></i> Reset
                                             </button>
                                         </div>
-                                        
-                                        <div class="flex items-center">
+                                        <div class="flex items-center gap-3">
                                             <label class="text-sm font-medium text-gray-700 mr-2">Polymer Type:</label>
                                             <select id="polymerType" class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
                                                 <option value="linear">Linear</option>
                                                 <option value="branched">Branched</option>
                                                 <option value="cross-linked">Cross-linked</option>
                                             </select>
+                                            <label class="text-sm font-medium text-gray-700 ml-4">Monomer:</label>
+                                            <select id="monomer" class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                                <option value="ethylene">Ethylene</option>
+                                                <option value="styrene">Styrene</option>
+                                            </select>
+                                            <label class="text-sm font-medium text-gray-700 ml-4">Initiator:</label>
+                                            <select id="initiator" class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                                <option value="peroxide">Peroxide</option>
+                                                <option value="uv">UV Light</option>
+                                            </select>
+                                            <label class="text-sm font-medium text-gray-700 ml-4">Temp:</label>
+                                            <input type="range" id="temperature" min="20" max="200" value="100" class="mx-2">
+                                            <span id="tempValue">100°C</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
                         <!-- Information Panel -->
-                        <div class="bg-white rounded-xl shadow p-5 h-fit">
+                        <div class="bg-white rounded-xl shadow p-5 h-fit" id="polymer-info">
                             <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                                 <i class="fas fa-info-circle text-blue-500 mr-2"></i>
                                 Polymer Information
                             </h2>
-                            
                             <div class="space-y-4">
                                 <div>
                                     <h3 class="font-medium text-gray-700">Current Structure</h3>
                                     <p id="currentPolymer" class="text-blue-600 font-semibold">Linear Polymer</p>
                                 </div>
-                                
                                 <div>
                                     <h3 class="font-medium text-gray-700">Characteristics</h3>
-                                    <ul class="list-disc pl-5 space-y-1 text-sm mt-1">
+                                    <ul id="polymer-characteristics" class="list-disc pl-5 space-y-1 text-sm mt-1">
                                         <li>High density</li>
                                         <li>Good tensile strength</li>
                                         <li>Semi-crystalline</li>
                                     </ul>
                                 </div>
-                                
                                 <div>
                                     <h3 class="font-medium text-gray-700">Common Applications</h3>
-                                    <ul class="list-disc pl-5 space-y-1 text-sm mt-1">
+                                    <ul id="polymer-applications" class="list-disc pl-5 space-y-1 text-sm mt-1">
                                         <li>Plastic bottles</li>
                                         <li>Packaging films</li>
                                         <li>Textile fibers</li>
                                     </ul>
                                 </div>
                             </div>
-                            
                             <div class="mt-6">
                                 <h3 class="font-medium text-gray-700 mb-2">Interactive Guide</h3>
                                 <div class="bg-blue-50 rounded-lg p-3 text-sm">
@@ -335,14 +263,12 @@
                             </div>
                         </div>
                     </div>
-                    
                     <!-- Physical Properties Section -->
-                    <div class="bg-white rounded-xl shadow p-5 mb-8">
+                    <div id="properties-section" class="bg-white rounded-xl shadow p-5 mb-8">
                         <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-weight-hanging text-blue-500 mr-2"></i>
                             Physical Properties
                         </h2>
-                        
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="property-card bg-white p-4 rounded-lg border shadow-sm">
                                 <div class="flex items-center mb-2">
@@ -356,7 +282,6 @@
                                     <span class="text-blue-600 font-semibold">Tg = 78°C</span>
                                 </div>
                             </div>
-                            
                             <div class="property-card bg-white p-4 rounded-lg border shadow-sm">
                                 <div class="flex items-center mb-2">
                                     <div class="bg-green-100 p-2 rounded-lg mr-3">
@@ -369,7 +294,6 @@
                                     <span class="text-green-600 font-semibold">Tm = 265°C</span>
                                 </div>
                             </div>
-                            
                             <div class="property-card bg-white p-4 rounded-lg border shadow-sm">
                                 <div class="flex items-center mb-2">
                                     <div class="bg-purple-100 p-2 rounded-lg mr-3">
@@ -384,14 +308,12 @@
                             </div>
                         </div>
                     </div>
-                    
                     <!-- Quiz Section -->
-                    <div class="bg-white rounded-xl shadow p-5">
+                    <div id="quiz-section" class="bg-white rounded-xl shadow p-5">
                         <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-question-circle text-blue-500 mr-2"></i>
                             Test Your Knowledge
                         </h2>
-                        
                         <div class="mb-4">
                             <h3 class="font-medium text-gray-800 text-lg mb-2">What property is most affected by branching in polymers?</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -409,7 +331,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div>
                             <h3 class="font-medium text-gray-800 text-lg mb-2">Which polymer structure has the highest density?</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -427,7 +348,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="mt-6 text-center">
                             <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition">
                                 Submit Answers <i class="fas fa-arrow-right ml-2"></i>
@@ -438,186 +358,495 @@
             </main>
         </div>
     </div>
-
     <!-- Tooltip container -->
     <div id="tooltip" class="tooltip"></div>
 
+    <!-- Main JavaScript: UI + Simulation Integration -->
     <script>
-        // Hide loading screen after 2 seconds
-        setTimeout(() => {
-            document.querySelector('.loading-screen').style.opacity = '0';
-            document.querySelector('.loading-screen').style.visibility = 'hidden';
-        }, 2000);
-        
-        // Mobile menu toggle
-        document.getElementById('mobile-menu').addEventListener('click', function() {
-            document.getElementById('mobile-nav').classList.toggle('hidden');
+    // Hide loading screen after 2 seconds
+    setTimeout(() => {
+        document.querySelector('.loading-screen').style.opacity = '0';
+        document.querySelector('.loading-screen').style.visibility = 'hidden';
+    }, 2000);
+
+    // Mobile menu toggle
+    document.getElementById('mobile-menu').addEventListener('click', function() {
+        document.getElementById('mobile-nav').classList.toggle('hidden');
+    });
+
+    // Sidebar navigation (dynamic content loading)
+    const sections = {
+        introduction: [
+            '<div class="bg-white rounded-xl shadow p-5 mb-8"><h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center"><i class="fas fa-home text-blue-500 mr-2"></i>Introduction</h2><p class="text-gray-700">Welcome to the Polymer Virtual Lab. Explore the fascinating world of polymers, their molecular structures, and how their properties are influenced by their architecture. Use the sidebar to navigate through the experiment.</p></div>'
+        ],
+        types: [
+            '<div class="bg-white rounded-xl shadow p-5 mb-8"><h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center"><i class="fas fa-project-diagram text-blue-500 mr-2"></i>Polymer Types</h2><ul class="list-disc pl-6 space-y-2 text-gray-700"><li><strong>Linear:</strong> Chains without branches. High density and crystallinity.</li><li><strong>Branched:</strong> Chains with side branches. Lower density, less crystalline.</li><li><strong>Cross-linked:</strong> Chains connected by covalent bonds. Rigid, thermoset properties.</li></ul></div>'
+        ],
+        structure: [], // The simulation section is always visible
+        properties: [
+            document.getElementById('properties-section').outerHTML
+        ],
+        quiz: [
+            document.getElementById('quiz-section').outerHTML
+        ]
+    };
+    // Default: show all main sections except for structure, which is always visible
+    function showSection(section) {
+        // Remove active state from all sidebar links
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        // Highlight the clicked link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.dataset.section === section) link.classList.add('active');
         });
-        
-        // Initialize tooltip functionality
-        const tooltip = document.getElementById('tooltip');
-        
-        document.addEventListener('mousemove', function(e) {
-            tooltip.style.left = (e.pageX + 10) + 'px';
-            tooltip.style.top = (e.pageY + 10) + 'px';
+        // Hide all content except structure-section
+        document.getElementById('structure-section').style.display = (section === 'structure') ? '' : 'none';
+        document.getElementById('properties-section').style.display = (section === 'properties') ? '' : 'none';
+        document.getElementById('quiz-section').style.display = (section === 'quiz') ? '' : 'none';
+        // For introduction/types, show custom content
+        if (section === 'introduction' || section === 'types') {
+            if (!document.getElementById('content-panel')) {
+                const panel = document.createElement('div');
+                panel.id = 'content-panel';
+                panel.className = 'mb-8';
+                document.querySelector('main .max-w-7xl').insertBefore(panel, document.getElementById('structure-section'));
+            }
+            document.getElementById('content-panel').innerHTML = sections[section][0];
+            document.getElementById('content-panel').style.display = '';
+        } else {
+            if (document.getElementById('content-panel')) document.getElementById('content-panel').style.display = 'none';
+        }
+    }
+    // Sidebar and mobile nav event listeners
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection(this.dataset.section);
         });
-        
-        // Sample tooltip content for atoms
-        const atomInfo = {
-            'carbon': 'Carbon Atom (C): Forms the backbone of most polymer chains. Each carbon atom can form up to four bonds.',
-            'hydrogen': 'Hydrogen Atom (H): Typically bonds with carbon atoms. Affects polymer flexibility and properties.',
-            'oxygen': 'Oxygen Atom (O): Found in many functional groups like esters and ethers. Influences polarity and reactivity.',
-            'monomer': 'Monomer Unit: The repeating structural unit in a polymer chain. This is the basic building block.'
-        };
-        
-        // Simulate tooltips on polymer structure
-        document.getElementById('polymerView').addEventListener('mousemove', function(e) {
-            // In a real implementation, this would be based on actual atoms
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Simulate different atom positions
-            if (x > 100 && x < 200 && y > 150 && y < 250) {
-                tooltip.innerHTML = atomInfo.carbon;
+    });
+    document.querySelectorAll('#mobile-nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection(this.dataset.section);
+        });
+    });
+    // Initial state: show structure viewer
+    showSection('structure');
+
+    // Tooltip logic (hover over atoms)
+    const tooltip = document.getElementById('tooltip');
+    const atomInfo = {
+        'C': 'Carbon Atom (C): Forms the backbone of most polymer chains. Each carbon atom can form up to four bonds.',
+        'H': 'Hydrogen Atom (H): Typically bonds with carbon atoms. Affects polymer flexibility and properties.',
+        'O': 'Oxygen Atom (O): Found in many functional groups like esters and ethers. Influences polarity and reactivity.',
+        'monomer': 'Monomer Unit: The repeating structural unit in a polymer chain. This is the basic building block.'
+    };
+
+    // === Simulation Logic Integration ===
+    // Polymer characteristics and applications for info panel
+    const polymerData = {
+        linear: {
+            name: 'Linear Polymer',
+            characteristics: [
+                'High density',
+                'Good tensile strength',
+                'Semi-crystalline'
+            ],
+            applications: [
+                'Plastic bottles',
+                'Packaging films',
+                'Textile fibers'
+            ]
+        },
+        branched: {
+            name: 'Branched Polymer',
+            characteristics: [
+                'Lower density',
+                'Lower crystallinity',
+                'More flexible'
+            ],
+            applications: [
+                'Plastic bags',
+                'Foam materials',
+                'Flexible containers'
+            ]
+        },
+        'cross-linked': {
+            name: 'Cross-linked Polymer',
+            characteristics: [
+                'Rigid and strong',
+                'Insoluble in solvents',
+                'Thermoset behavior'
+            ],
+            applications: [
+                'Rubber tires',
+                'Adhesives',
+                'Epoxy resins'
+            ]
+        }
+    };
+
+    // Simulation state
+    let simRunning = false, simInterval = null, chainLength = 0, maxMonomers = 12;
+    let scene, camera, renderer, controls;
+    let polymerGroup, polymerGroupCondensation, radicalGlow, waterMolecules = [];
+    let currentPolymerType = 'linear', currentMonomer = 'ethylene';
+
+    // Atom color mapping
+    const atomColors = { C: 0x222222, H: 0xffffff, O: 0xff0000 };
+
+    // Helper: Create atom mesh
+    function createAtom(type, position) {
+        const color = atomColors[type] || 0x888888;
+        const radius = type === 'C' ? 0.7 : (type === 'H' ? 0.35 : 0.5);
+        const geometry = new THREE.SphereGeometry(radius, 32, 32);
+        const material = new THREE.MeshPhongMaterial({ color });
+        const sphere = new THREE.Mesh(geometry, material);
+        sphere.position.copy(position);
+        sphere.userData.atomType = type;
+        return sphere;
+    }
+    // Helper: Create bond mesh
+    function createBond(start, end) {
+        const dir = new THREE.Vector3().subVectors(end, start);
+        const length = dir.length();
+        const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+        const geometry = new THREE.CylinderGeometry(0.15, 0.15, length, 16);
+        const material = new THREE.MeshPhongMaterial({ color: 0x888888 });
+        const bond = new THREE.Mesh(geometry, material);
+        bond.position.copy(mid);
+        bond.lookAt(end);
+        bond.rotateX(Math.PI / 2);
+        return bond;
+    }
+    // Helper: Create water molecule for condensation
+    function createWaterMolecule(position) {
+        const waterGroup = new THREE.Group();
+        const oxygen = createAtom('O', new THREE.Vector3(0, 0, 0));
+        waterGroup.add(oxygen);
+        const h1 = createAtom('H', new THREE.Vector3(0.4, 0.3, 0));
+        waterGroup.add(h1);
+        const h2 = createAtom('H', new THREE.Vector3(-0.4, 0.3, 0));
+        waterGroup.add(h2);
+        waterGroup.add(createBond(oxygen.position, h1.position));
+        waterGroup.add(createBond(oxygen.position, h2.position));
+        waterGroup.position.copy(position);
+        return waterGroup;
+    }
+
+    // === Addition Polymerization: Add Monomer ===
+    function addMonomerAddition(idx, monomerType, structureType) {
+        // Zig-zag path
+        let x = idx * 2 * (idx % 2 === 0 ? 1 : -1);
+        let y = Math.sin(idx * 0.5) * 1.2;
+        let base = new THREE.Vector3(x, y, 0);
+
+        // Structure type: linear, branched, cross-linked
+        if (structureType === 'branched' && idx > 1 && idx % 3 === 0) y += 2;
+        if (structureType === 'cross-linked' && idx > 2 && idx % 4 === 0) y -= 2;
+
+        if (monomerType === 'ethylene') {
+            // Ethylene: C2H4
+            const c1 = createAtom('C', base.clone().add(new THREE.Vector3(-0.5, 0, 0)));
+            const c2 = createAtom('C', base.clone().add(new THREE.Vector3(0.5, 0, 0)));
+            polymerGroup.add(c1, c2);
+            // Hydrogens
+            polymerGroup.add(createAtom('H', base.clone().add(new THREE.Vector3(-1, 0.8, 0))));
+            polymerGroup.add(createAtom('H', base.clone().add(new THREE.Vector3(-1, -0.8, 0))));
+            polymerGroup.add(createAtom('H', base.clone().add(new THREE.Vector3(1, 0.8, 0))));
+            polymerGroup.add(createAtom('H', base.clone().add(new THREE.Vector3(1, -0.8, 0))));
+            // Bonds
+            polymerGroup.add(createBond(c1.position, c2.position));
+            polymerGroup.add(createBond(c1.position, base.clone().add(new THREE.Vector3(-1, 0.8, 0))));
+            polymerGroup.add(createBond(c1.position, base.clone().add(new THREE.Vector3(-1, -0.8, 0))));
+            polymerGroup.add(createBond(c2.position, base.clone().add(new THREE.Vector3(1, 0.8, 0))));
+            polymerGroup.add(createBond(c2.position, base.clone().add(new THREE.Vector3(1, -0.8, 0))));
+            // Bond to previous monomer
+            if (idx > 0) {
+                const prevX = (idx - 1) * 2 * (((idx - 1) % 2 === 0) ? 1 : -1);
+                const prevY = Math.sin((idx - 1) * 0.5) * 1.2;
+                const prevBase = new THREE.Vector3(prevX, prevY, 0);
+                polymerGroup.add(createBond(prevBase.clone().add(new THREE.Vector3(0.5, 0, 0)), c1.position));
+            }
+            // Branching/cross-linking visuals
+            if (structureType === 'branched' && idx > 1 && idx % 3 === 0) {
+                const branchC = createAtom('C', base.clone().add(new THREE.Vector3(0, 2, 0)));
+                polymerGroup.add(branchC);
+                polymerGroup.add(createBond(c2.position, branchC.position));
+            }
+            if (structureType === 'cross-linked' && idx > 2 && idx % 4 === 0) {
+                const crossC = createAtom('C', base.clone().add(new THREE.Vector3(0, -2, 0)));
+                polymerGroup.add(crossC);
+                polymerGroup.add(createBond(c1.position, crossC.position));
+            }
+        } else if (monomerType === 'styrene') {
+            // Styrene: backbone C + phenyl ring
+            const backboneC = createAtom('C', base);
+            polymerGroup.add(backboneC);
+            polymerGroup.add(createAtom('H', base.clone().add(new THREE.Vector3(0.7, 0.7, 0))));
+            polymerGroup.add(createAtom('H', base.clone().add(new THREE.Vector3(-0.7, -0.7, 0))));
+            polymerGroup.add(createBond(base, base.clone().add(new THREE.Vector3(0.7, 0.7, 0))));
+            polymerGroup.add(createBond(base, base.clone().add(new THREE.Vector3(-0.7, -0.7, 0))));
+            // Phenyl ring
+            const ringCenter = base.clone().add(new THREE.Vector3(1.2, 1.2, 0));
+            const ringRadius = 0.6;
+            let prevRingC = null, firstRingC = null;
+            for (let i = 0; i < 6; i++) {
+                const angle = (i / 6) * 2 * Math.PI;
+                const pos = new THREE.Vector3(
+                    ringCenter.x + ringRadius * Math.cos(angle),
+                    ringCenter.y + ringRadius * Math.sin(angle), 0
+                );
+                const ringC = createAtom('C', pos);
+                polymerGroup.add(ringC);
+                if (prevRingC) polymerGroup.add(createBond(prevRingC.position, ringC.position));
+                prevRingC = ringC;
+                if (i === 0) firstRingC = ringC;
+                // Add hydrogen to ring carbon
+                const hPos = new THREE.Vector3(
+                    pos.x + 0.4 * Math.cos(angle),
+                    pos.y + 0.4 * Math.sin(angle), 0
+                );
+                const ringH = createAtom('H', hPos);
+                polymerGroup.add(ringH);
+                polymerGroup.add(createBond(ringC.position, hPos));
+            }
+            polymerGroup.add(createBond(prevRingC.position, firstRingC.position));
+            polymerGroup.add(createBond(base, ringCenter));
+            // Bond to previous monomer
+            if (idx > 0) {
+                const prevX = (idx - 1) * 2 * (((idx - 1) % 2 === 0) ? 1 : -1);
+                const prevY = Math.sin((idx - 1) * 0.5) * 1.2;
+                const prevBase = new THREE.Vector3(prevX, prevY, 0);
+                polymerGroup.add(createBond(prevBase, base));
+            }
+            // Branching/cross-linking visuals
+            if (structureType === 'branched' && idx > 1 && idx % 3 === 0) {
+                const branchC = createAtom('C', base.clone().add(new THREE.Vector3(0, 2, 0)));
+                polymerGroup.add(branchC);
+                polymerGroup.add(createBond(backboneC.position, branchC.position));
+            }
+            if (structureType === 'cross-linked' && idx > 2 && idx % 4 === 0) {
+                const crossC = createAtom('C', base.clone().add(new THREE.Vector3(0, -2, 0)));
+                polymerGroup.add(crossC);
+                polymerGroup.add(createBond(backboneC.position, crossC.position));
+            }
+        }
+        // Radical glow at chain end
+        if (radicalGlow) polymerGroup.remove(radicalGlow);
+        const glowGeo = new THREE.SphereGeometry(1.0, 24, 24);
+        const glowMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.5 });
+        radicalGlow = new THREE.Mesh(glowGeo, glowMat);
+        radicalGlow.position.copy(base);
+        polymerGroup.add(radicalGlow);
+    }
+
+    // === Condensation Polymerization: Add Monomers ===
+    function addMonomerCondensation(idxLeft, idxRight) {
+        const xLeft = -idxLeft * 2 * (idxLeft % 2 === 0 ? 1 : -1);
+        const yLeft = Math.sin(idxLeft * 0.5) * 1.2;
+        const xRight = idxRight * 2 * (idxRight % 2 === 0 ? 1 : -1);
+        const yRight = Math.sin(idxRight * 0.5) * 1.2;
+        const baseLeft = new THREE.Vector3(xLeft, yLeft, 0);
+        const baseRight = new THREE.Vector3(xRight, yRight, 0);
+        // Two different monomers: O (red) for dicarboxylic acid, C (black) for diol
+        const monomerLeft = createAtom('O', baseLeft);
+        const monomerRight = createAtom('C', baseRight);
+        polymerGroupCondensation.add(monomerLeft, monomerRight);
+        // Bonds to previous monomers
+        if (idxLeft > 0) {
+            const prevXLeft = -(idxLeft - 1) * 2 * (((idxLeft - 1) % 2 === 0) ? 1 : -1);
+            const prevYLeft = Math.sin((idxLeft - 1) * 0.5) * 1.2;
+            const prevBaseLeft = new THREE.Vector3(prevXLeft, prevYLeft, 0);
+            polymerGroupCondensation.add(createBond(prevBaseLeft, baseLeft));
+        }
+        if (idxRight > 0) {
+            const prevXRight = (idxRight - 1) * 2 * (((idxRight - 1) % 2 === 0) ? 1 : -1);
+            const prevYRight = Math.sin((idxRight - 1) * 0.5) * 1.2;
+            const prevBaseRight = new THREE.Vector3(prevXRight, prevYRight, 0);
+            polymerGroupCondensation.add(createBond(prevBaseRight, baseRight));
+        }
+        // Release water molecule at center
+        const waterPos = new THREE.Vector3(0, 1.5, 0);
+        const water = createWaterMolecule(waterPos);
+        polymerGroupCondensation.add(water);
+        waterMolecules.push({
+            mesh: water,
+            velocity: new THREE.Vector3(
+                (Math.random() - 0.5) * 0.1,
+                0.05 + Math.random() * 0.05,
+                (Math.random() - 0.5) * 0.1
+            )
+        });
+    }
+
+    // === Animation Loop ===
+    function animateWaterMolecules() {
+        for (let i = waterMolecules.length - 1; i >= 0; i--) {
+            const w = waterMolecules[i];
+            w.mesh.position.add(w.velocity);
+            w.velocity.y -= 0.001;
+            if (w.mesh.position.y < -2) {
+                polymerGroupCondensation.remove(w.mesh);
+                waterMolecules.splice(i, 1);
+            }
+        }
+    }
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        animateWaterMolecules();
+        renderer.render(scene, camera);
+    }
+
+    // === Simulation State Management ===
+    function clearPolymerGroups() {
+        while (polymerGroup.children.length > 0) polymerGroup.remove(polymerGroup.children[0]);
+        if (radicalGlow) { polymerGroup.remove(radicalGlow); radicalGlow = null; }
+        while (polymerGroupCondensation.children.length > 0) polymerGroupCondensation.remove(polymerGroupCondensation.children[0]);
+        waterMolecules = [];
+    }
+    function startSimulation() {
+        if (simRunning) return;
+        const polymerType = currentPolymerType;
+        const monomer = currentMonomer;
+        const initiator = document.getElementById('initiator').value;
+        const temperature = parseInt(document.getElementById('temperature').value);
+        if (!initiator) { alert('Please select an initiator.'); return; }
+        if (temperature < 50) { alert('Temperature too low. Raise above 50°C to initiate.'); return; }
+        clearPolymerGroups();
+        chainLength = 0;
+        simRunning = true;
+        if (polymerType === 'linear' || polymerType === 'branched' || polymerType === 'cross-linked') {
+            addMonomerAddition(chainLength, monomer, polymerType);
+            chainLength++;
+            simInterval = setInterval(() => {
+                if (chainLength >= maxMonomers) { stopSimulation(); return; }
+                addMonomerAddition(chainLength, monomer, polymerType);
+                chainLength++;
+            }, 700);
+        }
+    }
+    function stopSimulation() {
+        if (!simRunning) return;
+        simRunning = false;
+        clearInterval(simInterval);
+        simInterval = null;
+    }
+    function resetSimulation() {
+        stopSimulation();
+        clearPolymerGroups();
+    }
+
+    // === UI Event Listeners ===
+    document.getElementById('startBtn').addEventListener('click', startSimulation);
+    document.getElementById('pauseBtn').addEventListener('click', stopSimulation);
+    document.getElementById('resetBtn').addEventListener('click', resetSimulation);
+
+    document.getElementById('temperature').addEventListener('input', function() {
+        document.getElementById('tempValue').textContent = this.value + '°C';
+    });
+
+    // Polymer type dropdown: update info panel and simulation
+    document.getElementById('polymerType').addEventListener('change', function() {
+        currentPolymerType = this.value;
+        // Info panel update
+        const data = polymerData[this.value];
+        document.getElementById('currentPolymer').textContent = data.name;
+        document.getElementById('polymer-characteristics').innerHTML = data.characteristics.map(c => `<li>${c}</li>`).join('');
+        document.getElementById('polymer-applications').innerHTML = data.applications.map(a => `<li>${a}</li>`).join('');
+        // Reset simulation for new type
+        resetSimulation();
+    });
+    document.getElementById('monomer').addEventListener('change', function() {
+        currentMonomer = this.value;
+        resetSimulation();
+    });
+
+    // === Three.js Simulation Initialization ===
+    function initSimulation() {
+        // Remove previous renderer if any
+        if (renderer && renderer.domElement) {
+            renderer.domElement.remove();
+        }
+        const container = document.getElementById('polymerView');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xe0f0ff);
+        camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+        camera.position.set(0, 0, 40);
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(width, height);
+        container.appendChild(renderer.domElement);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(10, 20, 10);
+        scene.add(directionalLight);
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 10;
+        controls.maxDistance = 100;
+        polymerGroup = new THREE.Group();
+        scene.add(polymerGroup);
+        polymerGroupCondensation = new THREE.Group();
+        scene.add(polymerGroupCondensation);
+        radicalGlow = null;
+        waterMolecules = [];
+        animate();
+        // Responsive resize
+        window.addEventListener('resize', function() {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        });
+        // Tooltip on hover
+        renderer.domElement.addEventListener('mousemove', function(e) {
+            // Raycasting for atom hover
+            const rect = renderer.domElement.getBoundingClientRect();
+            const mouse = new THREE.Vector2(
+                ((e.clientX - rect.left) / rect.width) * 2 - 1,
+                -((e.clientY - rect.top) / rect.height) * 2 + 1
+            );
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(polymerGroup.children, true);
+            if (intersects.length > 0 && intersects[0].object.userData.atomType) {
+                tooltip.innerHTML = atomInfo[intersects[0].object.userData.atomType] || atomInfo['monomer'];
                 tooltip.style.opacity = '1';
-            } else if (x > 250 && x < 300 && y > 100 && y < 200) {
-                tooltip.innerHTML = atomInfo.hydrogen;
-                tooltip.style.opacity = '1';
-            } else if (x > 300 && x < 400 && y > 200 && y < 300) {
-                tooltip.innerHTML = atomInfo.monomer;
-                tooltip.style.opacity = '1';
+                tooltip.style.left = (e.pageX + 10) + 'px';
+                tooltip.style.top = (e.pageY + 10) + 'px';
             } else {
                 tooltip.style.opacity = '0';
             }
         });
-        
-        document.getElementById('polymerView').addEventListener('mouseleave', function() {
+        renderer.domElement.addEventListener('mouseleave', function() {
             tooltip.style.opacity = '0';
         });
-        
-        // Polymer type change
-        document.getElementById('polymerType').addEventListener('change', function() {
-            const type = this.value;
-            let name = '';
-            
-            switch(type) {
-                case 'linear':
-                    name = 'Linear Polymer';
-                    break;
-                case 'branched':
-                    name = 'Branched Polymer';
-                    break;
-                case 'cross-linked':
-                    name = 'Cross-linked Polymer';
-                    break;
-            }
-            
-            document.getElementById('currentPolymer').textContent = name;
-        });
-        
-        // Quiz interaction
-        document.querySelectorAll('.quiz-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Remove selection from other options in the same question
-                const parent = this.parentElement;
-                parent.querySelectorAll('.quiz-option').forEach(el => {
-                    el.classList.remove('correct', 'incorrect');
-                });
-                
-                // Add appropriate class
-                if (this.classList.contains('correct')) {
-                    this.classList.add('correct');
-                } else {
-                    this.classList.add('incorrect');
-                }
-            });
-        });
-        
-        // This would be replaced with your actual simulation code
-        // For demo purposes, I'll include a basic Three.js scene
-        function initSimulation() {
-            const container = document.getElementById('polymerView');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
+    }
+    // Initialize simulation on page load
+    window.addEventListener('load', initSimulation);
 
-            // Create scene
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xf0f9ff);
-            
-            // Create camera
-            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-            camera.position.z = 15;
-            
-            // Create renderer
-            const renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(width, height);
-            container.appendChild(renderer.domElement);
-            
-            // Add lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(1, 1, 1);
-            scene.add(directionalLight);
-            
-            // Create orbit controls
-            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            
-            // Create a sample polymer chain
-            const chainGroup = new THREE.Group();
-            scene.add(chainGroup);
-            
-            // Create monomer units
-            const monomerGeometry = new THREE.SphereGeometry(0.8, 32, 32);
-            const monomerMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x3b82f6,
-                transparent: true,
-                opacity: 0.8
+    // Quiz interaction
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove selection from other options in the same question
+            const parent = this.parentElement;
+            parent.querySelectorAll('.quiz-option').forEach(el => {
+                el.classList.remove('correct', 'incorrect');
             });
-            
-            const bondGeometry = new THREE.CylinderGeometry(0.15, 0.15, 1.8, 16);
-            const bondMaterial = new THREE.MeshPhongMaterial({ color: 0x94a3b8 });
-            
-            for (let i = 0; i < 8; i++) {
-                const monomer = new THREE.Mesh(monomerGeometry, monomerMaterial);
-                monomer.position.x = i * 2.2 - 8;
-                chainGroup.add(monomer);
-                
-                if (i > 0) {
-                    const bond = new THREE.Mesh(bondGeometry, bondMaterial);
-                    bond.position.x = i * 2.2 - 8 - 1.1;
-                    bond.rotation.z = Math.PI / 2;
-                    chainGroup.add(bond);
-                }
+            // Add appropriate class
+            if (this.classList.contains('correct')) {
+                this.classList.add('correct');
+            } else {
+                this.classList.add('incorrect');
             }
-            
-            // Animation loop
-            function animate() {
-                requestAnimationFrame(animate);
-                chainGroup.rotation.y += 0.005;
-                controls.update();
-                renderer.render(scene, camera);
-            }
-            
-            animate();
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                renderer.setSize(width, height);
-            });
-        }
-        
-        // Initialize simulation when page loads
-        window.addEventListener('load', initSimulation);
+        });
+    });
+
     </script>
 </body>
 </html>
