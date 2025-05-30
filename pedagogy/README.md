@@ -16,9 +16,11 @@
 
 <h4> [1. Focus Area](#LO)"Discover how the structure of polymers affects their strength, flexibility, and how they react with other substances."
 <h4> [2. Learning Objectives ](#LO)"By the end of this module, learners will be able to identify different polymer structures and explain how these structures influence the physical, chemical, and mechanical properties of materials."
-<h4> [3. Instructional Strategy](#IS)<b>1. Start with What You Know</b> <br> Begin with a quick quiz or question to see what learners already know about polymers.<br> <b>2. Learn by Doing</b><br> Let students play with interactive tools like animations or 3D models to see different polymer shapes and how they work.<br><b>3. Explain the Ideas</b><br> Use simple videos or pictures to show how a polymer’s shape affects its strength, stretchiness, or how it reacts with things.<br> <b>4. Try It Out</b><br> Give real-life examples and activities where students guess which polymer works best in certain situations (like clothing or bottles).
-<h4> [4. Task & Assessment Questions](#AQ)
-<h4> [5. Simulator Interactions](#SI)
+<h4> [3. Instructional Strategy](#IS)<b>1. Start with What You Know</b> <br> Begin with a quick quiz or question to see what learners already know about polymers.<br> <b>2. Learn by Doing</b><br> Let students play with interactive tools like animations or 3D models to see different polymer shapes and how they work.<br><b>3. Explain the Ideas</b><br> Use simple videos or pictures to show how a polymer’s shape affects its strength, stretchiness, or how it reacts with things.<br> 
+<h4> [4. Task & Assessment Questions](#AQ)Tasks: Explore different polymer structures using interactive models and note how their shapes affect properties like strength and flexibility.<br>Assessment Questions: What are the three main types of polymer structures? How does the structure of a polymer affect its strength? True or False: Crosslinked polymers can be melted and reshaped easily. Give one example of a product made from a branched polymer. What property changes when a polymer goes from soft to hard as it cools?
+<h4> [5. Simulator Interactions](#SI)Feature:<br>Users can select and build different polymer structures — linear, branched, and crosslinked — by adding or removing chain links.<br>Interaction:<br>As users modify the structure, the simulator dynamically shows changes in properties such as:
+<br>Flexibility (e.g., chains bend more or less) <br> Strength (tensile resistance gauge)<br>Melting point(temperature slider adjusts accordingly)<br>Elasticity (stretch and recovery animation)
+<br>Visual Feedback:<br>  Color-coded indicators highlight changes (e.g., green for flexible, red for rigid). <br>Challenge Mode:<br>  Users receive product scenarios (like making a stretchy band or a hard plastic bottle) and must design a polymer structure that fits the property needs.
 <hr>
 
 <a name="LO"></a>
@@ -29,9 +31,9 @@
 
 Sr. No |	Learning Objective	| Cognitive Level | Action Verb
 :--|:--|:--|:-:
-1.|   <br>   |    |   
-2.|   <br>   |    |   
-3.|   <br>   |    |   
+1.| Identify and describe different polymer structures such as linear, branched, and crosslinked   |    |   
+2.| Apply knowledge of polymer structures to predict suitable applications for different types of polymers   |    |   
+3.| Analyze how changes in polymer structure influence chemical and mechanical behavior |    |   
 
 <br/>
 <div align="right">
