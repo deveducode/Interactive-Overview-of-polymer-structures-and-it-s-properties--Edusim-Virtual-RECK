@@ -31,9 +31,9 @@
 
 Sr. No |	Learning Objective	| Cognitive Level | Action Verb
 :--|:--|:--|:-:
-1.| Identify and describe different polymer structures such as linear, branched, and crosslinked   |    |   
-2.| Apply knowledge of polymer structures to predict suitable applications for different types of polymers   |    |   
-3.| Analyze how changes in polymer structure influence chemical and mechanical behavior |    |   
+1.| Identify and describe different polymer structures such as linear, branched, and crosslinked   |Remember & Understand    |   Identify,Describe 
+2.| Apply knowledge of polymer structures to predict suitable applications for different types of polymers   |Apply   | Apply  
+3.| Analyze how changes in polymer structure influence chemical and mechanical behavior | Analyze   |   
 
 <br/>
 <div align="right">
