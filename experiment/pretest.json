@@ -2,12 +2,12 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "Which of the following is a linear polymer?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": " Polyethylene",
+        "b": "Polyvinyl chloride (PVC)",
+        "c": " Bakelite",
+        "d": " Natural rubber"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -19,12 +19,12 @@
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "What distinguishes a crosslinked polymer from a linear one?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "It has only one type of monomer",
+        "b": "It contains double bonds",
+        "c": "It forms strong covalent bonds between chains",
+        "d": "It is soluble in water"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
