@@ -90,25 +90,25 @@
 
   const myQuestions = [
     {
-      question: "On increasing the radius of the steel ball to double its value the terminal velocity of the ball become box:",  ///// Write the question inside double quotes
+      question: "Which polymer structure is generally most rigid and heat resistant?",
       answers: {
-        a: " double",                  ///// Write the option 1 inside double quotes
-        b: "four times",                  ///// Write the option 2 inside double quotes
-        c: "eight times",                  ///// Write the option 3 inside double quotes
-        d: "sixteen times"                   ///// Write the option 4 inside double quotes
+        a: "Linear",
+        b: "Branched",
+        c: "Cross-linked",
+        d: "Amorphous"
       },
-      correctAnswer: "b"                ///// Write the correct option inside double quotes
+      correctAnswer: "c"               ///// Write the correct option inside double quotes
     },
 
     {
-      question: " On increasing density of material of the falling ball its terminal velocity:",  ///// Write the question inside double quotes
+      question: "Which of the following best describes a linear polymer?",
       answers: {
-        a: "Increases",                  ///// Write the option 1 inside double quotes
-        b: "decreases",                  ///// Write the option 2 inside double quotes
-        c: "remains constant",                  ///// Write the option 3 inside double quotes
-        d: "NOT"                   ///// Write the option 4 inside double quotes
+        a: "A polymer with chains forming a 3D network",
+        b: "A polymer with chains arranged in a straight line",
+        c: "A polymer with side chains branching from the main chain",
+        d: "A polymer made only of cyclic monomers"
       },
-      correctAnswer: "a"                ///// Write the correct option inside double quotes
+      correctAnswer: "b"                ///// Write the correct option inside double quotes
     },                                  ///// To add more questions, copy the section below 
     									                  ///// this line
 
