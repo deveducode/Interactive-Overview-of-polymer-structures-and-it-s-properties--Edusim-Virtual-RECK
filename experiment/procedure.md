@@ -1,6 +1,3 @@
-### Procedure
-
-
 ### **1. Introduction to Polymers**
 
 * Start with an engaging explanation of what polymers are: long-chain molecules made of repeating units (monomers).
