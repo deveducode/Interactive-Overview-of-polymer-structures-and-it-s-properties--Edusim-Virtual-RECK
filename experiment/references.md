@@ -1,1 +1,4 @@
-### Link your references in here
+- [NPTEL – Polymer Chemistry by Prof. Vikas G. Gaikar, IIT Bombay](https://nptel.ac.in/courses/104/105/104105124)
+- [MIT OpenCourseWare – Introduction to Polymers](https://ocw.mit.edu/courses/materials-science-and-engineering/3-063-polymer-physics-spring-2007/)
+- [LibreTexts – Structure and Properties of Polymers](https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Physical_Properties_of_Matter/States_of_Matter/Properties_of_Solids/Polymers)
+- [Polymer Database – Polymer Properties](https://polymerdatabase.com/polymer%20physics/Polymer%20Properties.html)
