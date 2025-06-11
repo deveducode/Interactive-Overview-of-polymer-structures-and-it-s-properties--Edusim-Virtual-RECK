@@ -1,4 +1,4 @@
-### Theory of Interactive Overview of Polymer Structures and Its Properties
+### Interactive Overview of Polymer Structures and Its Properties
 
 The interactive overview of polymer structures and their properties is based on the constructivist learning theory, which emphasizes active engagement and learner-centered exploration. This approach integrates visualizations, simulations, and hands-on digital tools to help learners grasp complex molecular arrangements of polymers—such as **linear**, **branched**, and **crosslinked** structures—and correlate them with key material properties like **strength**, **elasticity**, **thermal stability**, and **density**.
 
